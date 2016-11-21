@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Inc;.\FreeRTOS\Inc;.\Clock\Inc;.\USB\Inc;.\UART\Inc;.\GPIO\Inc;.\LCD\Inc;.\Touch\Inc;.\IIC\Inc;.\Filter\Inc</IncludePath>
+              <IncludePath>.\Inc;.\FreeRTOS\Inc;.\Clock\Inc;.\UART\Inc;.\GPIO\Inc;.\printf</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -463,6 +463,16 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\GPIO\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>printf</GroupName>
+          <Files>
+            <File>
+              <FileName>tinyprintf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\printf\tinyprintf.c</FilePath>
             </File>
           </Files>
         </Group>

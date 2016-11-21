@@ -16,11 +16,19 @@ src/Objects
 #Assume we don't need
 *.crf
 
+#Logs
+*.htm
+#Dependancy
+*.dep
+#Listing
+*.lst
+#Linker input
+*.lnp
+#Map
+*.map
+
 
 #Can't find any documentation on this. Assumed to be some kind of temporary file?
 *.0000
 *.iex
 
-
-#Logs
-*.htm

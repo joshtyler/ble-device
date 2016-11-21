@@ -26,7 +26,6 @@
 #include "clock_config.h" //Clock configuration
 #include "gpio.h" //To read buttons
 
-
 //Heartbeat task to show that system is still alive
 //Blink LEDs and send UART message every second
 //Also send system up message on boot

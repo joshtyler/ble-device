@@ -20,15 +20,21 @@
 #include "debug.h" //Debug print functions
 #include "clock_config.h" //Clock configuration
 #include "gpio.h" //To read buttons
+#include "tinyprintf.h" //For printf functionality
 
 #define STACK_SIZE		( ( unsigned short ) 128 )
 	
+static inline void printf_putc(void* p, char c) { uart_putchar(c); }; //Definition for tiny_printf library
+
 
 int main(void)
 {
 	//Setup clocking
 	BOARD_BootClockRUN();
 	SystemCoreClockUpdate();
+	
+	//Setup printf
+	init_printf(NULL,printf_putc);
 	
 	//Setup peripherals
 	gpio_init();
@@ -38,7 +44,6 @@ int main(void)
 	//Blink LED and send UART message *at lowest priority* to indicate that we're still alive
 	xTaskCreate(heartbeat, (const char *)"Heartbeat", STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY, NULL);
 	
-
 	vTaskStartScheduler();
 
 	return 0;
