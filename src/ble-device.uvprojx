@@ -447,31 +447,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>USB</GroupName>
-          <Files>
-            <File>
-              <FileName>usb_desc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USB\usb_desc.c</FilePath>
-            </File>
-            <File>
-              <FileName>usb_dev.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USB\usb_dev.c</FilePath>
-            </File>
-            <File>
-              <FileName>usb_mem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USB\usb_mem.c</FilePath>
-            </File>
-            <File>
-              <FileName>usb_mouse.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\USB\usb_mouse.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>UART</GroupName>
           <Files>
             <File>
@@ -488,56 +463,6 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\GPIO\gpio.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>LCD</GroupName>
-          <Files>
-            <File>
-              <FileName>lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\LCD\lcd.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Touch</GroupName>
-          <Files>
-            <File>
-              <FileName>touch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Touch\touch.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>IIC</GroupName>
-          <Files>
-            <File>
-              <FileName>iic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\IIC\iic.c</FilePath>
-            </File>
-            <File>
-              <FileName>fsl_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\IIC\fsl_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>fsl_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\IIC\fsl_i2c.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Filter</GroupName>
-          <Files>
-            <File>
-              <FileName>filter.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Filter\filter.c</FilePath>
             </File>
           </Files>
         </Group>
