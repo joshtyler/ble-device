@@ -1,6 +1,8 @@
 //Copyright (c) 2016 Joshua Lewis Tyler
 //See LICENSE.txt
 
+#define NDEBUG
+
 //Device header
 #include <MKL46Z4.H>
 
@@ -41,7 +43,7 @@ int main(void)
 	uart_init(115200);
 
 	//Heartbeat task
-	//Blink LED and send UART message *at lowest priority* to indicate that we're still alive
+	//Blink LED and send UART message to indicate that we're still alive
 	xTaskCreate(heartbeat, (const char *)"Heartbeat", STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY, NULL);
 	
 	vTaskStartScheduler();

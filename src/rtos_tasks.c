@@ -32,7 +32,7 @@
 //Hardcoded for green LED (PTD5) on KL-46Z dev board
 void heartbeat(void *pvParameters)
 {
-	dbg_puts("USB Mouse begin.\r\n");
+	dbg_puts("Begin.\r\n");
 	setLED1();
 	clearLED2();
 	while(1)

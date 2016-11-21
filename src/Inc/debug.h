@@ -18,7 +18,7 @@
 #else
 	#define dbg_puts(str) uart_puts(str)
 	#define dbg_putchar(c) uart_putchar(c)
-	#define dbg_printf(s,...) tfp_printf(s,...)
+	#define dbg_printf tfp_printf
 #endif
 
 
