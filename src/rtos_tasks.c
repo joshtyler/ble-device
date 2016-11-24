@@ -26,6 +26,8 @@
 #include "clock_config.h" //Clock configuration
 #include "gpio.h" //To read buttons
 
+#include "bluenrg_utils.h"
+
 //Heartbeat task to show that system is still alive
 //Blink LEDs and send UART message every second
 //Also send system up message on boot
@@ -40,6 +42,24 @@ void heartbeat(void *pvParameters)
 		toggleLED1();
 		toggleLED2();
 		dbg_puts("Heartbeat\r\n");
+		vTaskDelay(1000/portTICK_RATE_MS);
+	}
+}
+
+void ble(void *pvParameters)
+{
+	//Reset blueNRG
+	clearBluenrgReset();
+	vTaskDelay(10/portTICK_RATE_MS);
+	setBluenrgReset();
+	
+  uint8_t  hwVersion;
+  uint16_t fwVersion;
+	getBlueNRGVersion(&hwVersion, &fwVersion);
+	
+	while(1)
+	{
+		dbg_printf("HWver %d, FWver %d", hwVersion, fwVersion);
 		vTaskDelay(1000/portTICK_RATE_MS);
 	}
 }

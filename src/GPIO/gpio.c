@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <MKL46Z4.H>
 #include "gpio.h"
+#include "hci.h"
 
 void gpio_init(void)
 {
@@ -18,6 +19,16 @@ void gpio_init(void)
 	init_pin(SW1_PORT, SW1_PIN, false, true, 1);
 	init_pin(SW2_PORT, SW2_PIN, false, true, 1);
 	
+	//BLUENRG RESET_N
+	init_pin(BLUENRG_RESET_N_PORT, BLUENRG_RESET_N_PIN, true, false, 1);
+	setBluenrgReset(); //Enable
+	
+	//BLUENRG SPI IRQ
+	init_pin(BLUENRG_SPI_IRQ_PORT, BLUENRG_SPI_IRQ_PIN, false, false, 1);
+	//Setup interrupt
+	//Interrupt on rising edge
+	BLUENRG_SPI_IRQ_PORT->PCR[BLUENRG_SPI_IRQ_PIN] = (BLUENRG_SPI_IRQ_PORT->PCR[BLUENRG_SPI_IRQ_PIN] & ~PORT_PCR_IRQC_MASK) | PORT_PCR_IRQC(9);
+	NVIC_EnableIRQ(PORTC_PORTD_IRQn);
 }
 
 void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullup, uint8_t alt)
@@ -73,4 +84,10 @@ void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullup, uint8_t a
 		port->PCR[pin] &= ~PORT_PCR_PE_MASK;
 	}
 	
+}
+
+void PORTC_PORTD_IRQHandler(void)
+{
+	//We only have one interrupt set - the 'data ready' interrupt
+	HCI_Isr();
 }

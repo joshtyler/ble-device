@@ -8,6 +8,7 @@
 #include "task.h"
 
 void heartbeat(void *pvParameters);
+void ble(void *pvParameters);
 void vApplicationMallocFailedHook( void );
 void vApplicationStackOverflowHook( TaskHandle_t xTask, signed char *pcTaskName );
 

@@ -30,10 +30,21 @@
 #define SW2_GPIO PTC
 #define SW2_PIN 12
 
+//BLUENRG RESET_N
+#define BLUENRG_RESET_N_PORT PORTC
+#define BLUENRG_RESET_N_GPIO PTC
+#define BLUENRG_RESET_N_PIN 9
+
+//BLUENRG SPI IRQ
+#define BLUENRG_SPI_IRQ_PORT PORTD
+#define BLUENRG_SPI_IRQ_GPIO PTD
+#define BLUENRG_SPI_IRQ_PIN 2
 
 void gpio_init(void);
 
 void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullup, uint8_t alt);
+
+
 
 //Macros to perform common functions
 //LEDs
@@ -45,6 +56,14 @@ void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullup, uint8_t a
 
 #define toggleLED1() LED1_GPIO->PTOR = (1u<<LED1_PIN)
 #define toggleLED2() LED2_GPIO->PTOR = (1u<<LED2_PIN)
+
+//BLUENRG RESET_N
+#define setBluenrgReset() BLUENRG_RESET_N_GPIO->PSOR = (1u<<BLUENRG_RESET_N_PIN)
+#define clearBluenrgReset() BLUENRG_RESET_N_GPIO->PCOR = (1u<<BLUENRG_RESET_N_PIN)
+
+//BLUENRG SPI IRQ
+#define readBluenrgSpiIrq() (BLUENRG_SPI_IRQ_GPIO->PDIR & (1u<<BLUENRG_SPI_IRQ_PIN)? 1 : 0)
+#define clearBluergIrq() (BLUENRG_SPI_IRQ_PORT->ISFR = (1u<<BLUENRG_SPI_IRQ_PIN))
 
 //Switches
 //Note: This library uses the convention 1= pressed, 0= not pressed

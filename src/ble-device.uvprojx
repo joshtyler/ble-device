@@ -310,7 +310,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -332,10 +332,10 @@
             <v6WtE>0</v6WtE>
             <v6Rtti>0</v6Rtti>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>--gnu</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Inc;.\FreeRTOS\Inc;.\Clock\Inc;.\UART\Inc;.\GPIO\Inc;.\printf;.\SPI\Inc</IncludePath>
+              <IncludePath>.\Inc;.\FreeRTOS\Inc;.\Clock\Inc;.\UART\Inc;.\GPIO\Inc;.\printf;.\SPI\Inc;.\STM32_BlueNRG\SimpleBlueNRG_HCI\includes;.\STM32 Compatibility Layer\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -388,6 +388,11 @@
               <FileName>rtos_tasks.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\rtos_tasks.c</FilePath>
+            </File>
+            <File>
+              <FileName>sensor_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\sensor_service.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -483,6 +488,139 @@
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\SPI\spi.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>STM32_BlueNRG</GroupName>
+          <GroupOption>
+            <CommonProperty>
+              <UseCPPCompiler>0</UseCPPCompiler>
+              <RVCTCodeConst>0</RVCTCodeConst>
+              <RVCTZI>0</RVCTZI>
+              <RVCTOtherData>0</RVCTOtherData>
+              <ModuleSelection>0</ModuleSelection>
+              <IncludeInBuild>2</IncludeInBuild>
+              <AlwaysBuild>2</AlwaysBuild>
+              <GenerateAssemblyFile>2</GenerateAssemblyFile>
+              <AssembleAssemblyFile>2</AssembleAssemblyFile>
+              <PublicsOnly>2</PublicsOnly>
+              <StopOnExitCode>11</StopOnExitCode>
+              <CustomArgument></CustomArgument>
+              <IncludeLibraryModules></IncludeLibraryModules>
+              <ComprImg>1</ComprImg>
+            </CommonProperty>
+            <GroupArmAds>
+              <Cads>
+                <interw>2</interw>
+                <Optim>0</Optim>
+                <oTime>2</oTime>
+                <SplitLS>2</SplitLS>
+                <OneElfS>2</OneElfS>
+                <Strict>2</Strict>
+                <EnumInt>2</EnumInt>
+                <PlainCh>2</PlainCh>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <wLevel>0</wLevel>
+                <uThumb>2</uThumb>
+                <uSurpInc>2</uSurpInc>
+                <uC99>2</uC99>
+                <useXO>2</useXO>
+                <v6Lang>0</v6Lang>
+                <v6LangP>0</v6LangP>
+                <vShortEn>2</vShortEn>
+                <vShortWch>2</vShortWch>
+                <v6Lto>0</v6Lto>
+                <v6WtE>2</v6WtE>
+                <v6Rtti>2</v6Rtti>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath>.\STM32 Compatibility Layer\Inc;.\STM32_BlueNRG\SimpleBlueNRG_HCI\includes;.\STM32_BlueNRG\Interface</IncludePath>
+                </VariousControls>
+              </Cads>
+              <Aads>
+                <interw>2</interw>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <thumb>2</thumb>
+                <SplitLS>2</SplitLS>
+                <SwStkChk>2</SwStkChk>
+                <NoWarn>2</NoWarn>
+                <uSurpInc>2</uSurpInc>
+                <useXO>2</useXO>
+                <uClangAs>2</uClangAs>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Aads>
+            </GroupArmAds>
+          </GroupOption>
+          <Files>
+            <File>
+              <FileName>bluenrg_itf_template.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\Interface\bluenrg_itf_template.c</FilePath>
+            </File>
+            <File>
+              <FileName>hci.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\hci\hci.c</FilePath>
+            </File>
+            <File>
+              <FileName>list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\utils\list.c</FilePath>
+            </File>
+            <File>
+              <FileName>osal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\utils\osal.c</FilePath>
+            </File>
+            <File>
+              <FileName>bluenrg_gap_aci.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\hci\controller\bluenrg_gap_aci.c</FilePath>
+            </File>
+            <File>
+              <FileName>bluenrg_gatt_aci.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\hci\controller\bluenrg_gatt_aci.c</FilePath>
+            </File>
+            <File>
+              <FileName>bluenrg_hal_aci.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\hci\controller\bluenrg_hal_aci.c</FilePath>
+            </File>
+            <File>
+              <FileName>bluenrg_l2cap_aci.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\hci\controller\bluenrg_l2cap_aci.c</FilePath>
+            </File>
+            <File>
+              <FileName>bluenrg_utils_small.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\hci\controller\bluenrg_utils_small.c</FilePath>
+            </File>
+            <File>
+              <FileName>gp_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32_BlueNRG\SimpleBlueNRG_HCI\utils\gp_timer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>STM32 Compatibility Layer</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32_bluenrg_ble.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STM32 Compatibility Layer\stm32_bluenrg_ble.c</FilePath>
             </File>
           </Files>
         </Group>
