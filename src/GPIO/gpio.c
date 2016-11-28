@@ -11,27 +11,27 @@
 void gpio_init(void)
 {
 	//LEDs
-	init_pin(LED1_PORT, LED1_PIN, true, false, 1);
-	init_pin(LED2_PORT, LED2_PIN, true, false, 1);
+	init_pin(LED1_PORT, LED1_PIN, true, false, false, 1);
+	init_pin(LED2_PORT, LED2_PIN, true, false, false, 1);
 	
 	//Switches
 	//Enable internal pullups as there are none on PCB
-	init_pin(SW1_PORT, SW1_PIN, false, true, 1);
-	init_pin(SW2_PORT, SW2_PIN, false, true, 1);
+	init_pin(SW1_PORT, SW1_PIN, false, true, true, 1);
+	init_pin(SW2_PORT, SW2_PIN, false, true, true, 1);
 	
 	//BLUENRG RESET_N
-	init_pin(BLUENRG_RESET_N_PORT, BLUENRG_RESET_N_PIN, true, false, 1);
+	init_pin(BLUENRG_RESET_N_PORT, BLUENRG_RESET_N_PIN, true, false, false, 1);
 	setBluenrgReset(); //Enable
 	
 	//BLUENRG SPI IRQ
-	init_pin(BLUENRG_SPI_IRQ_PORT, BLUENRG_SPI_IRQ_PIN, false, false, 1);
+	init_pin(BLUENRG_SPI_IRQ_PORT, BLUENRG_SPI_IRQ_PIN, false, true, false, 1);
 	//Setup interrupt
 	//Interrupt on rising edge
 	BLUENRG_SPI_IRQ_PORT->PCR[BLUENRG_SPI_IRQ_PIN] = (BLUENRG_SPI_IRQ_PORT->PCR[BLUENRG_SPI_IRQ_PIN] & ~PORT_PCR_IRQC_MASK) | PORT_PCR_IRQC(9);
-	NVIC_EnableIRQ(PORTC_PORTD_IRQn);
+	enableBluenrgSpiIrq();
 }
 
-void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullup, uint8_t alt)
+void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullen, bool pullup, uint8_t alt)
 {
 	unsigned int mask;
 	GPIO_Type *pt;
@@ -76,10 +76,18 @@ void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullup, uint8_t a
 		pt->PDDR &= ~(1u<<pin);
 	}
 	
-	//Condtionally set pullup
-	if(pullup)
+	//pull
+	if(pullen)
 	{
-		port->PCR[pin] |= (PORT_PCR_PE_MASK | PORT_PCR_PS_MASK);
+		if(pullup)
+		{
+			//Pullup
+			port->PCR[pin] |= (PORT_PCR_PE_MASK | PORT_PCR_PS_MASK);
+		} else {
+			//Pulldown
+			port->PCR[pin] &= ~PORT_PCR_PS_MASK;
+			port->PCR[pin] |= PORT_PCR_PE_MASK;
+		}
 	} else {
 		port->PCR[pin] &= ~PORT_PCR_PE_MASK;
 	}

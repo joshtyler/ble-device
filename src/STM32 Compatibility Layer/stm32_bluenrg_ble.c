@@ -4,10 +4,15 @@
 // Compatibility layer to use STM32_BlueNRG Stack
 
 #include "stm32_bluenrg_ble.h"
+#include "hal.h" //For SPI enable and disable
 
 #define HEADER_SIZE 5
 #define MAX_BUFFER_SIZE 255
 #define TIMEOUT_DURATION 15
+
+//N.B. These refer to the external SPI interrrupt pin. Not an interrupt driven SPI driver
+void Disable_SPI_IRQ(void) { disableBluenrgSpiIrq(); };
+void Enable_SPI_IRQ(void) { enableBluenrgSpiIrq(); };
 
 
 /**
@@ -87,8 +92,7 @@ void Hal_Write_Serial(const void* data1, const void* data2, int32_t n_bytes1,
  */
 int32_t BlueNRG_SPI_Write(SPI_HandleTypeDef *hspi, uint8_t* data1,
                           uint8_t* data2, uint8_t Nb_bytes1, uint8_t Nb_bytes2)
-{  
-  int32_t result = 0;  
+{   
   
   unsigned char header_master[HEADER_SIZE] = {0x0a, 0x00, 0x00, 0x00, 0x00};
   unsigned char header_slave[HEADER_SIZE]  = {0xaa, 0x00, 0x00, 0x00, 0x00};
@@ -99,10 +103,13 @@ int32_t BlueNRG_SPI_Write(SPI_HandleTypeDef *hspi, uint8_t* data1,
   /* Exchange header */  
   HAL_SPI_TransmitReceive(hspi, header_master, header_slave, HEADER_SIZE, TIMEOUT_DURATION);
   
+	//This has been added to correct a bug in the code!
+	//Previously only the lower half of the buffer was being checked!
+	uint16_t byte_count = (header_slave[2]<<8)|header_slave[1];
 
   if (header_slave[0] == 0x02) {
     /* SPI is ready */
-    if (header_slave[1] >= (Nb_bytes1+Nb_bytes2)) {
+    if (byte_count >= (Nb_bytes1+Nb_bytes2)) {
   
       /*  Buffer is big enough */
       if (Nb_bytes1 > 0) {
@@ -114,13 +121,13 @@ int32_t BlueNRG_SPI_Write(SPI_HandleTypeDef *hspi, uint8_t* data1,
 
     } else {
       /* Buffer is too small */
-      result = -2;
+      return -2;
     }
   } else {
     /* SPI is not ready */
-    result = -1;
+    return -1;
   }
 
 
-  return result;
+  return 0;
 }

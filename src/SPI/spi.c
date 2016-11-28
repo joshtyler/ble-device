@@ -13,11 +13,11 @@ void spi_init(void)
 	SIM->SCGC4 |= SIM_SCGC4_SPI1_MASK;
 	
 	//Setup SPI Pins
-	//Port, pin, output, pullup, alt
-	init_pin(SPI1_PORT, SPI1_MISO_PIN, false, false, SPI1_ALT);
-	init_pin(SPI1_PORT, SPI1_MOSI_PIN, true, false, SPI1_ALT);
-	init_pin(SPI1_PORT, SPI1_CS_PIN, true, false, SPI1_ALT);
-	init_pin(SPI1_PORT, SPI1_CLK_PIN, true, false, SPI1_ALT);
+	//Port, pin, output, pullen, pullup, alt
+	init_pin(SPI1_PORT, SPI1_MISO_PIN, false, false, false, SPI1_ALT);
+	init_pin(SPI1_PORT, SPI1_MOSI_PIN, true, false, false, SPI1_ALT);
+	init_pin(SPI1_PORT, SPI1_CS_PIN, true, false, false, SPI1_ALT);
+	init_pin(SPI1_PORT, SPI1_CLK_PIN, true, false, false, SPI1_ALT);
 	
 	//Disable SPI1 before configuration
 	SPI1->C1 &= ~SPI_C1_SPE_MASK;
@@ -54,8 +54,13 @@ void spi_transfer(unsigned int length, uint8_t *txData, uint8_t *rxData)
   SPI1->C1 |= SPI_C1_SPE_MASK;
 	
 	unsigned int i;
+	
+	volatile int j;
 	for(i = 0; i < length; i++)
 	{
+		//Dumb loop to ensure we don't violate the enable hold time
+		for(j=0; j<100; j++);
+		
 		//Send data
 		while((SPI1->S & SPI_S_SPTEF_MASK) == 0);
 		SPI1->DL = txData[i];

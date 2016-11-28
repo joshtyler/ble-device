@@ -10,12 +10,8 @@
 #include "gpio.h"
 #include "stm32f4xx_hal_spi.h"
 #include "spi.h"
+#include "hal.h" //For SPI enable and disable
 
-//We don't use SPI interrupts
-inline void Disable_SPI_IRQ(void) {};
-inline void Enable_SPI_IRQ(void) {};
-
-	
 //This function reports the status of the BlueNRG Data Present pin
 //Returns 1 if the pin is high
 //Returns 0 if the pin is low

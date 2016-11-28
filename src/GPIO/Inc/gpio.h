@@ -42,7 +42,7 @@
 
 void gpio_init(void);
 
-void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullup, uint8_t alt);
+void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullen, bool pullup, uint8_t alt);
 
 
 
@@ -64,6 +64,8 @@ void init_pin(PORT_Type * port, uint8_t pin, bool output, bool pullup, uint8_t a
 //BLUENRG SPI IRQ
 #define readBluenrgSpiIrq() (BLUENRG_SPI_IRQ_GPIO->PDIR & (1u<<BLUENRG_SPI_IRQ_PIN)? 1 : 0)
 #define clearBluergIrq() (BLUENRG_SPI_IRQ_PORT->ISFR = (1u<<BLUENRG_SPI_IRQ_PIN))
+#define enableBluenrgSpiIrq() (NVIC_EnableIRQ(PORTC_PORTD_IRQn)) //We can do this as nothing else uses the interrupt
+#define disableBluenrgSpiIrq() (NVIC_DisableIRQ(PORTC_PORTD_IRQn))
 
 //Switches
 //Note: This library uses the convention 1= pressed, 0= not pressed

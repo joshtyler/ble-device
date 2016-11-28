@@ -52,6 +52,7 @@ void ble(void *pvParameters)
 	clearBluenrgReset();
 	vTaskDelay(10/portTICK_RATE_MS);
 	setBluenrgReset();
+	vTaskDelay(100/portTICK_RATE_MS);
 	
   uint8_t  hwVersion;
   uint16_t fwVersion;
