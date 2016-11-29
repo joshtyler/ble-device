@@ -176,9 +176,25 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+          <LineNumber>51</LineNumber>
+          <EnabledFlag>0</EnabledFlag>
+          <Address>2132</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\STM32 Compatibility Layer\stm32_bluenrg_ble.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\usb_mouse\STM32 Compatibility Layer/stm32_bluenrg_ble.c\51</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
           <LineNumber>344</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>5428</Address>
+          <Address>5548</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>

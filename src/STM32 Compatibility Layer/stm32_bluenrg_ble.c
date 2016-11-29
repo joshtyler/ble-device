@@ -5,6 +5,7 @@
 
 #include "stm32_bluenrg_ble.h"
 #include "hal.h" //For SPI enable and disable
+#include "gpio.h"
 
 #define HEADER_SIZE 5
 #define MAX_BUFFER_SIZE 255
@@ -33,6 +34,9 @@ int32_t BlueNRG_SPI_Read_All(SPI_HandleTypeDef *hspi, uint8_t *buffer,
   uint8_t header_master[HEADER_SIZE] = {0x0b, 0x00, 0x00, 0x00, 0x00};
   uint8_t header_slave[HEADER_SIZE];
 
+	volatile int i;
+	clearSpiCs();
+	for(i=0;i<100;i++)__NOP(); //Dumb delay to meet timing
 
   /* Read the header */  
   HAL_SPI_TransmitReceive(hspi, header_master, header_slave, HEADER_SIZE, TIMEOUT_DURATION);
@@ -55,10 +59,9 @@ int32_t BlueNRG_SPI_Read_All(SPI_HandleTypeDef *hspi, uint8_t *buffer,
       
     }    
   }
-  
-  // Add a small delay to give time to the BlueNRG to set the IRQ pin low
-  // to avoid a useless SPI read at the end of the transaction
-  for(volatile int i = 0; i < 2; i++)__NOP();
+	for(i=0;i<100;i++)__NOP();
+	setSpiCs();
+	for(i=0;i<500;i++)__NOP(); //This delay is extra long to allow chip to de-asset IRQ
 	
 	return len;
 }
@@ -98,7 +101,12 @@ int32_t BlueNRG_SPI_Write(SPI_HandleTypeDef *hspi, uint8_t* data1,
   unsigned char header_slave[HEADER_SIZE]  = {0xaa, 0x00, 0x00, 0x00, 0x00};
   
   unsigned char read_char_buf[MAX_BUFFER_SIZE];
- 
+	
+	int32_t ret_val = 0;
+
+	volatile int i;
+	clearSpiCs();
+	for(i=0;i<100;i++)__NOP(); //Dumb delay to meet timing
 
   /* Exchange header */  
   HAL_SPI_TransmitReceive(hspi, header_master, header_slave, HEADER_SIZE, TIMEOUT_DURATION);
@@ -121,13 +129,16 @@ int32_t BlueNRG_SPI_Write(SPI_HandleTypeDef *hspi, uint8_t* data1,
 
     } else {
       /* Buffer is too small */
-      return -2;
+      ret_val = -2;
     }
   } else {
     /* SPI is not ready */
-    return -1;
+    ret_val = -1;
   }
 
-
-  return 0;
+	for(i=0;i<100;i++)__NOP();
+	setSpiCs();
+	for(i=0;i<100;i++)__NOP();
+	
+  return ret_val;
 }
