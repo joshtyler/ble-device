@@ -26,6 +26,7 @@
 #include "tinyprintf.h" //For printf functionality
 #include "spi.h"
 #include "hci.h"
+#include "iic.h"
 
 #define STACK_SIZE		( ( unsigned short ) 256 )
 	
@@ -45,6 +46,10 @@ int main(void)
 	gpio_init();
 	uart_init(115200);
 	spi_init();
+	
+	//Setup IIC in Kinetis SDK style
+	BOARD_I2C_ReleaseBus();
+	BOARD_I2C_ConfigurePins();
 	
 	//Setup HCI
 	HCI_Init();

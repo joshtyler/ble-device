@@ -25,6 +25,7 @@
 #include "debug.h" //Debug print functions
 #include "clock_config.h" //Clock configuration
 #include "gpio.h" //To read buttons
+#include "iic.h"
 
 #include "osal.h"
 #include "sensor_service.h"
@@ -57,6 +58,7 @@ void heartbeat(void *pvParameters)
 
 extern volatile uint8_t set_connectable;
 extern volatile int connected;
+extern AxesRaw_t axes_data;
 
 void ble(void *pvParameters)
 {
@@ -166,15 +168,31 @@ void ble(void *pvParameters)
 	while(1)
 	{
 		HCI_Process();
-		
-		//User process
-		if(set_connectable)
-		{
-			setConnectable();
-			set_connectable = FALSE;
-		}
-		//End user process
+		User_Process(&axes_data);
 	}
+}
+
+//This is not a freeRTOS task, but a helper task
+void User_Process(AxesRaw_t* p_axes)
+{
+  if(set_connectable){
+    setConnectable();
+    set_connectable = FALSE;
+  }  
+
+    if(connected)
+    {
+			//Read accel
+			int16_t x,y,z;
+			readAccel(&x, &y, &z);
+			
+      /* Update acceleration data */
+      p_axes->AXIS_X = x/2;
+      p_axes->AXIS_Y = y/2;
+      p_axes->AXIS_Z = z/2;
+      //PRINTF("ACC: X=%6d Y=%6d Z=%6d\r\n", p_axes->AXIS_X, p_axes->AXIS_Y, p_axes->AXIS_Z);
+      Acc_Update(p_axes);
+    }
 }
 
 

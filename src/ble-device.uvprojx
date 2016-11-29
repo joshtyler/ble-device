@@ -335,7 +335,7 @@
               <MiscControls>--gnu</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Inc;.\FreeRTOS\Inc;.\Clock\Inc;.\UART\Inc;.\GPIO\Inc;.\printf;.\SPI\Inc;.\STM32_BlueNRG\SimpleBlueNRG_HCI\includes;.\STM32 Compatibility Layer\Inc</IncludePath>
+              <IncludePath>.\Inc;.\FreeRTOS\Inc;.\Clock\Inc;.\UART\Inc;.\GPIO\Inc;.\printf;.\SPI\Inc;.\STM32_BlueNRG\SimpleBlueNRG_HCI\includes;.\STM32 Compatibility Layer\Inc;.\IIC\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -621,6 +621,26 @@
               <FileName>stm32_bluenrg_ble.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\STM32 Compatibility Layer\stm32_bluenrg_ble.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>IIC</GroupName>
+          <Files>
+            <File>
+              <FileName>fsl_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\IIC\fsl_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\IIC\fsl_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\IIC\iic.c</FilePath>
             </File>
           </Files>
         </Group>
