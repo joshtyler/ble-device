@@ -27,7 +27,7 @@
 #include "spi.h"
 #include "hci.h"
 
-#define STACK_SIZE		( ( unsigned short ) 128 )
+#define STACK_SIZE		( ( unsigned short ) 256 )
 	
 static inline void printf_putc(void* p, char c) { uart_putchar(c); }; //Definition for tiny_printf library
 
