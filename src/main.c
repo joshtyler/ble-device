@@ -28,7 +28,7 @@
 #include "hci.h"
 #include "iic.h"
 
-#define STACK_SIZE		( ( unsigned short ) 256 )
+#define MIN_STACK_SIZE		( ( unsigned short ) 128 )
 	
 static inline void printf_putc(void* p, char c) { uart_putchar(c); }; //Definition for tiny_printf library
 
@@ -56,10 +56,10 @@ int main(void)
 	
 	//Heartbeat task
 	//Blink LED and send UART message to indicate that we're still alive
-	xTaskCreate(heartbeat, (const char *)"Heartbeat", STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY, NULL);
+	xTaskCreate(heartbeat, (const char *)"Heartbeat", MIN_STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY, NULL);
 	
 	//BLE task
-	xTaskCreate(ble, (const char *)"BLE", STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY +1, NULL);
+	xTaskCreate(ble, (const char *)"BLE",  8*MIN_STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY +1, NULL);
 	
 	vTaskStartScheduler();
 

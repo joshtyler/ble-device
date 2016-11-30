@@ -335,7 +335,7 @@
               <MiscControls>--gnu</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>.\Inc;.\FreeRTOS\Inc;.\Clock\Inc;.\UART\Inc;.\GPIO\Inc;.\printf;.\SPI\Inc;.\STM32_BlueNRG\SimpleBlueNRG_HCI\includes;.\STM32 Compatibility Layer\Inc;.\IIC\Inc</IncludePath>
+              <IncludePath>.\Inc;.\FreeRTOS\Inc;.\Clock\Inc;.\UART\Inc;.\GPIO\Inc;.\printf;.\SPI\Inc;.\STM32_BlueNRG\SimpleBlueNRG_HCI\includes;.\STM32 Compatibility Layer\Inc;.\IIC\Inc;.\Filter\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -641,6 +641,16 @@
               <FileName>iic.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\IIC\iic.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Filter</GroupName>
+          <Files>
+            <File>
+              <FileName>filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Filter\filter.c</FilePath>
             </File>
           </Files>
         </Group>

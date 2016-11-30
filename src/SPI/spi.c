@@ -50,6 +50,9 @@ void spi_init(void)
 
 void spi_transfer(unsigned int length, uint8_t *txData, uint8_t *rxData)
 {
+	//We don't want the interrupt handler interrupting us here!!
+	__disable_irq();
+	
 	//Disable and re-enable SPI to clear S register
   SPI1->C1 &= ~SPI_C1_SPE_MASK;
   SPI1->C1 |= SPI_C1_SPE_MASK;
@@ -67,5 +70,5 @@ void spi_transfer(unsigned int length, uint8_t *txData, uint8_t *rxData)
 		while ((SPI1->S & SPI_S_SPRF_MASK) == 0);
 		rxData[i] = SPI1->DL;
 	}
-	
+	__enable_irq();
 }

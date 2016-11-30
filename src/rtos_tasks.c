@@ -26,6 +26,7 @@
 #include "clock_config.h" //Clock configuration
 #include "gpio.h" //To read buttons
 #include "iic.h"
+#include "filter.h"
 
 #include "osal.h"
 #include "sensor_service.h"
@@ -175,6 +176,8 @@ void ble(void *pvParameters)
 //This is not a freeRTOS task, but a helper task
 void User_Process(AxesRaw_t* p_axes)
 {
+	static filterHandle_t x_filt, y_filt, z_filt;
+	
   if(set_connectable){
     setConnectable();
     set_connectable = FALSE;
@@ -185,12 +188,16 @@ void User_Process(AxesRaw_t* p_axes)
 			//Read accel
 			int16_t x,y,z;
 			readAccel(&x, &y, &z);
+			PRINTF("RAW: X=%6d Y=%6d Z=%6d\r\n", x, y, z);
+			movingAverageAddSample(&x_filt, x);
+			movingAverageAddSample(&y_filt, y);
+			movingAverageAddSample(&z_filt, z);
 			
       /* Update acceleration data */
-      p_axes->AXIS_X = x/2;
-      p_axes->AXIS_Y = y/2;
-      p_axes->AXIS_Z = z/2;
-      //PRINTF("ACC: X=%6d Y=%6d Z=%6d\r\n", p_axes->AXIS_X, p_axes->AXIS_Y, p_axes->AXIS_Z);
+      p_axes->AXIS_X = x_filt.curVal/2;
+      p_axes->AXIS_Y = y_filt.curVal/2;
+      p_axes->AXIS_Z = z_filt.curVal/2;
+      PRINTF("ACC: X=%6d Y=%6d Z=%6d\r\n", p_axes->AXIS_X, p_axes->AXIS_Y, p_axes->AXIS_Z);
       Acc_Update(p_axes);
     }
 }
