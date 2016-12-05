@@ -1,5 +1,4 @@
-//Copyright (c) 2016 Steven Yan and Joshua Lewis Tyler
-//Licensed under the MIT license
+//Copyright (c) 2016 Joshua Lewis Tyler
 //See LICENSE.txt
 
 //Tasks to run as FreeRTOS tasks
@@ -33,6 +32,9 @@
 #include "debug.h"
 #include "stm32_bluenrg_ble.h"
 #include "bluenrg_utils.h"
+
+//Queue to send accelerometer data to bluetooth task
+xQueueHandle accelQueue = NULL;
 
 //Heartbeat task to show that system is still alive
 //Blink LEDs and send UART message every second
@@ -173,10 +175,32 @@ void ble(void *pvParameters)
 	}
 }
 
-//This is not a freeRTOS task, but a helper task
-void User_Process(AxesRaw_t* p_axes)
+
+void accelRead(void *pvParameters)
 {
 	static filterHandle_t x_filt, y_filt, z_filt;
+	while(1)
+	{
+			//Read accel
+			accelData_t d;
+			readAccel(&d.x, &d.y, &d.z);
+			dbg_printf("RAW: X=%6d Y=%6d Z=%6d\r\n", d.x, d.y, d.z);
+			movingAverageAddSample(&x_filt, d.x);
+			movingAverageAddSample(&y_filt, d.y);
+			movingAverageAddSample(&z_filt, d.z);
+		
+			//Scale to work correctly with BlueNRG app
+      d.x = x_filt.curVal/2;
+      d.y = y_filt.curVal/2;
+      d.z = z_filt.curVal/2;
+		
+		xQueueSend(accelQueue, &d, portMAX_DELAY); //Send data to queue, wait forever for it to be accepted
+	}
+}
+
+//This is not a freeRTOS task in itself, but a helper task called from ble
+void User_Process(AxesRaw_t* p_axes)
+{
 	
   if(set_connectable){
     setConnectable();
@@ -185,18 +209,12 @@ void User_Process(AxesRaw_t* p_axes)
 
     if(connected)
     {
-			//Read accel
-			int16_t x,y,z;
-			readAccel(&x, &y, &z);
-			PRINTF("RAW: X=%6d Y=%6d Z=%6d\r\n", x, y, z);
-			movingAverageAddSample(&x_filt, x);
-			movingAverageAddSample(&y_filt, y);
-			movingAverageAddSample(&z_filt, z);
-			
+			accelData_t d;
+			xQueueReceive(accelQueue, &d, portMAX_DELAY); //Get data to queue, wait forever for it
       /* Update acceleration data */
-      p_axes->AXIS_X = x_filt.curVal/2;
-      p_axes->AXIS_Y = y_filt.curVal/2;
-      p_axes->AXIS_Z = z_filt.curVal/2;
+      p_axes->AXIS_X = d.x;
+      p_axes->AXIS_Y = d.y;
+      p_axes->AXIS_Z = d.z;
       PRINTF("ACC: X=%6d Y=%6d Z=%6d\r\n", p_axes->AXIS_X, p_axes->AXIS_Y, p_axes->AXIS_Z);
       Acc_Update(p_axes);
     }
