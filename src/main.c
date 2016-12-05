@@ -39,7 +39,7 @@ int main(void)
 	BOARD_BootClockRUN();
 	SystemCoreClockUpdate();
 	
-	//Setup printf
+	//Setup printf	
 	init_printf(NULL,printf_putc);
 	
 	//Setup peripherals
@@ -56,10 +56,10 @@ int main(void)
 	
 	//Heartbeat task
 	//Blink LED and send UART message to indicate that we're still alive
-	xTaskCreate(heartbeat, (const char *)"Heartbeat", MIN_STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY, NULL);
+	xTaskCreate(heartbeat, (const char *)"Heartbeat", MIN_STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY +1, NULL);
 	
 	//BLE task
-	xTaskCreate(ble, (const char *)"BLE",  8*MIN_STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY +1, NULL);
+	xTaskCreate(ble, (const char *)"BLE",  8*MIN_STACK_SIZE, (void *)NULL, tskIDLE_PRIORITY, NULL);
 	
 	vTaskStartScheduler();
 
